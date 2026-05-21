@@ -351,11 +351,15 @@ h1, h2, h3, h4, .logo {
 }
 
 .brand-logo {
-    height: 62px;
+    height: 48px;
     width: auto;
     display: block;
     object-fit: contain;
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: height 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.navbar.scrolled .brand-logo {
+    height: 38px;
 }
 
 .logo:hover .brand-logo {
