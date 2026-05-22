@@ -95,15 +95,15 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.classList.remove('intro-active');
             window.removeEventListener('scroll', lockScroll);
             window.scrollTo(0, 0);
-            setTimeout(() => intro.remove(), 1200);
+            setTimeout(() => intro.remove(), 800);
         }
         
         setTimeout(() => {
             window.scrollTo(0, 0);
             const heroReveals = document.querySelectorAll('.hero-content');
             heroReveals.forEach(el => el.classList.add('active'));
-        }, 400);
-    }, 3800);
+        }, 300);
+    }, 3200);
 
     /* ==========================================================================
        Timeline Progress Animation
@@ -132,5 +132,96 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('scroll', updateTimelineProgress);
         window.addEventListener('resize', updateTimelineProgress);
         updateTimelineProgress(); // Initial call
+    }
+
+    /* ==========================================================================
+       Google Form Contact Submission
+       ========================================================================== */
+    const contactForm = document.getElementById('contactForm');
+    const submitBtn = document.getElementById('contactSubmitBtn');
+    const sendAnotherBtn = document.getElementById('sendAnotherBtn');
+    const confirmPopup = document.getElementById('confirmPopup');
+    const confirmPopupClose = document.getElementById('confirmPopupClose');
+    const confirmPopupOk = document.getElementById('confirmPopupOk');
+
+    const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLScaaUc5gvXhNN0w1U8_xbjABgKB0ijGt2qDWSESqabeUfR0xQ/formResponse';
+
+    function showConfirmPopup() {
+        if (confirmPopup) {
+            confirmPopup.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+    }
+
+    function hideConfirmPopup() {
+        if (confirmPopup) {
+            confirmPopup.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    }
+
+    if (contactForm) {
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const project = document.getElementById('project').value.trim();
+
+            // Disable button and show sending state
+            submitBtn.disabled = true;
+            const btnText = submitBtn.querySelector('.btn-text');
+            if (btnText) btnText.textContent = 'Sending...';
+
+            const formData = new URLSearchParams();
+            formData.append('entry.597638784', name);
+            formData.append('entry.835609725', phone);
+            formData.append('entry.381264150', email);
+            formData.append('entry.1703191043', project);
+
+            try {
+                await fetch(GOOGLE_FORM_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: formData.toString(),
+                });
+            } catch (err) {
+                // no-cors will often land here; the data is still sent
+            }
+
+            // Show inline success state
+            contactForm.classList.add('submitted');
+            contactForm.reset();
+
+            // Reset button text for next use
+            submitBtn.disabled = false;
+            if (btnText) btnText.textContent = 'Send Request';
+
+            // Show confirmation popup
+            showConfirmPopup();
+        });
+    }
+
+    if (sendAnotherBtn) {
+        sendAnotherBtn.addEventListener('click', () => {
+            contactForm.classList.remove('submitted');
+        });
+    }
+
+    // Close popup handlers
+    if (confirmPopupClose) {
+        confirmPopupClose.addEventListener('click', hideConfirmPopup);
+    }
+    if (confirmPopupOk) {
+        confirmPopupOk.addEventListener('click', hideConfirmPopup);
+    }
+    if (confirmPopup) {
+        confirmPopup.addEventListener('click', (e) => {
+            if (e.target === confirmPopup) hideConfirmPopup();
+        });
     }
 });

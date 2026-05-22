@@ -455,31 +455,62 @@
                         </div>
                     </div>
                     
-                    <form class="contact-form" autocomplete="off" onsubmit="event.preventDefault(); alert('Thank you! Your project details have been received.');">
-                        <div class="form-group">
-                            <input type="text" id="name" name="name" required placeholder=" " class="form-input">
-                            <label for="name" class="form-label">Your Name</label>
+                    <form class="contact-form" id="contactForm" autocomplete="off">
+                        <div class="form-fields-wrapper">
+                            <div class="form-group">
+                                <input type="text" id="name" name="name" required placeholder=" " class="form-input">
+                                <label for="name" class="form-label">Your Name</label>
+                            </div>
+                            <div class="form-group">
+                                <input type="tel" id="phone" name="phone" required placeholder=" " class="form-input">
+                                <label for="phone" class="form-label">Contact Number</label>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" id="email" name="email" required placeholder=" " class="form-input">
+                                <label for="email" class="form-label">Mail</label>
+                            </div>
+                            <div class="form-group">
+                                <textarea id="project" name="project" required placeholder=" " class="form-input form-textarea"></textarea>
+                                <label for="project" class="form-label">Tell us about your project</label>
+                            </div>
+                            <button type="submit" id="contactSubmitBtn" class="btn btn-outline contact-submit-btn">
+                                <span class="pulse-dot"></span> <span class="btn-text">Send Request</span>
+                            </button>
                         </div>
-                        <div class="form-group">
-                            <input type="tel" id="phone" name="phone" required placeholder=" " class="form-input">
-                            <label for="phone" class="form-label">Contact Number</label>
+                        <div class="form-success-message">
+                            <div class="success-icon-wrapper">
+                                <svg class="success-checkmark" viewBox="0 0 52 52" width="52" height="52">
+                                    <circle class="success-circle" cx="26" cy="26" r="24" fill="none" stroke="currentColor" stroke-width="2"/>
+                                    <path class="success-check" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="M14 27l7 7 16-16"/>
+                                </svg>
+                            </div>
+                            <h3 class="success-title">Message Sent!</h3>
+                            <p class="success-desc">Thank you for reaching out. We'll get back to you shortly.</p>
+                            <button type="button" id="sendAnotherBtn" class="btn btn-outline contact-submit-btn">
+                                <span class="pulse-dot"></span> Send Another Message
+                            </button>
                         </div>
-                        <div class="form-group">
-                            <input type="email" id="email" name="email" required placeholder=" " class="form-input">
-                            <label for="email" class="form-label">Mail</label>
-                        </div>
-                        <div class="form-group">
-                            <textarea id="project" name="project" required placeholder=" " class="form-input form-textarea"></textarea>
-                            <label for="project" class="form-label">Tell us about your project</label>
-                        </div>
-                        <button type="submit" class="btn btn-outline contact-submit-btn">
-                            <span class="pulse-dot"></span> Send Request
-                        </button>
                     </form>
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- Confirmation Popup Modal -->
+    <div class="confirm-popup-overlay" id="confirmPopup">
+        <div class="confirm-popup-card">
+            <button class="confirm-popup-close" id="confirmPopupClose" aria-label="Close">&times;</button>
+            <div class="confirm-popup-icon">
+                <svg class="confirm-checkmark" viewBox="0 0 52 52" width="56" height="56">
+                    <circle class="confirm-circle" cx="26" cy="26" r="24" fill="none" stroke="currentColor" stroke-width="2"/>
+                    <path class="confirm-check" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="M14 27l7 7 16-16"/>
+                </svg>
+            </div>
+            <h3 class="confirm-popup-title">Request Submitted!</h3>
+            <p class="confirm-popup-desc">Thank you for reaching out. Our team will get back to you within 24 hours.</p>
+            <button class="btn btn-primary confirm-popup-btn" id="confirmPopupOk">Got it</button>
+        </div>
+    </div>
 
     <footer class="footer">
         <div class="container footer-content">
