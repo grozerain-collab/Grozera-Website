@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const confirmPopupClose = document.getElementById('confirmPopupClose');
     const confirmPopupOk = document.getElementById('confirmPopupOk');
 
-    const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLScaaUc5gvXhNN0w1U8_xbjABgKB0ijGt2qDWSESqabeUfR0xQ/formResponse';
+    const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSeoSDWMHYMtErffBOl-z25Mcel4S6LuVkibxf4gyDfYlrTkyQ/formResponse';
 
     function showConfirmPopup() {
         if (confirmPopup) {
@@ -175,10 +175,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (btnText) btnText.textContent = 'Sending...';
 
             const formData = new URLSearchParams();
-            formData.append('entry.597638784', name);
-            formData.append('entry.835609725', phone);
-            formData.append('entry.381264150', email);
-            formData.append('entry.1703191043', project);
+            formData.append('entry.292173717', name);
+            formData.append('entry.1570043826', phone);
+            formData.append('entry.1188271389', email);
+            formData.append('entry.407964985', project);
 
             try {
                 await fetch(GOOGLE_FORM_URL, {
