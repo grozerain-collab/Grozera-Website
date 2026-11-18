@@ -8,22 +8,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /* ==========================================================================
-       Navbar Scroll Effect
+       Navbar Scroll Effect — rAF-throttled, passive listener
        ========================================================================== */
     const navbar = document.getElementById('navbar');
-    
+    let navbarTicking = false;
+
     window.addEventListener('scroll', () => {
-        const scrolled = window.scrollY;
-        
-        // Navbar Scrolled Class
-        if (scrolled > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
+        if (!navbarTicking) {
+            requestAnimationFrame(() => {
+                if (navbar) {
+                    navbar.classList.toggle('scrolled', window.scrollY > 50);
+                }
+                navbarTicking = false;
+            });
+            navbarTicking = true;
         }
-
-
-    });
+    }, { passive: true });
 
     /* ==========================================================================
        Mobile Menu Toggle
@@ -52,26 +52,22 @@ document.addEventListener('DOMContentLoaded', () => {
        Scroll Animations (Intersection Observer)
        ========================================================================== */
     const revealElements = document.querySelectorAll('.reveal, .reveal-up, .reveal-stagger');
-    
+
     const revealOptions = {
-        threshold: 0.15,
-        rootMargin: "0px 0px -50px 0px"
+        threshold: 0.1,
+        rootMargin: '0px 0px -40px 0px'
     };
-    
-    const revealOnScroll = new IntersectionObserver(function(entries, observer) {
+
+    const revealOnScroll = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
-            if (!entry.isIntersecting) {
-                return;
-            } else {
+            if (entry.isIntersecting) {
                 entry.target.classList.add('active');
                 observer.unobserve(entry.target);
             }
         });
     }, revealOptions);
-    
-    revealElements.forEach(el => {
-        revealOnScroll.observe(el);
-    });
+
+    revealElements.forEach(el => revealOnScroll.observe(el));
 
     /* ==========================================================================
        Intro Animation Sequence
@@ -83,55 +79,82 @@ document.addEventListener('DOMContentLoaded', () => {
         window.history.replaceState(null, null, window.location.pathname);
     }
     window.scrollTo(0, 0);
-    
+
     document.body.classList.add('intro-active');
     const lockScroll = () => window.scrollTo(0, 0);
-    window.addEventListener('scroll', lockScroll);
-    
+    window.addEventListener('scroll', lockScroll, { passive: true });
+
     setTimeout(() => {
         const intro = document.getElementById('introScreen');
         if (intro) {
             intro.classList.add('fade-out');
+            intro.style.pointerEvents = 'none'; // stop any click capture immediately
             document.body.classList.remove('intro-active');
             window.removeEventListener('scroll', lockScroll);
             window.scrollTo(0, 0);
-            setTimeout(() => intro.remove(), 800);
+            setTimeout(() => {
+                intro.style.display = 'none';
+                // Remove from DOM after display:none to prevent any reflow impact
+                requestAnimationFrame(() => intro.remove());
+            }, 800);
         }
-        
+
+        // Trigger hero reveal slightly after intro fade starts
         setTimeout(() => {
             window.scrollTo(0, 0);
             const heroReveals = document.querySelectorAll('.hero-content');
             heroReveals.forEach(el => el.classList.add('active'));
-        }, 300);
+        }, 200);
     }, 3200);
 
     /* ==========================================================================
-       Timeline Progress Animation
+       Timeline Progress Animation — IntersectionObserver + rAF scroll
        ========================================================================== */
     const timeline = document.querySelector('.process-timeline-horizontal');
     const timelineProgress = document.querySelector('.timeline-connecting-line');
-    
+
     if (timeline && timelineProgress) {
+        let timelineTicking = false;
+        let timelineVisible = false;
+
         const updateTimelineProgress = () => {
+            if (!timelineVisible) return;
             const timelineRect = timeline.getBoundingClientRect();
             const viewportHeight = window.innerHeight;
-            
-            // Starts drawing when the timeline is 80% from top of screen, finishes when it reaches 40%
             const startVal = viewportHeight * 0.8;
             const endVal = viewportHeight * 0.4;
-            
             const diff = startVal - timelineRect.top;
             const total = startVal - endVal;
-            
-            let percentage = (diff / total) * 100;
-            percentage = Math.max(0, Math.min(100, percentage));
-            
+            const percentage = Math.max(0, Math.min(100, (diff / total) * 100));
             timelineProgress.style.width = `${percentage}%`;
         };
-        
-        window.addEventListener('scroll', updateTimelineProgress);
-        window.addEventListener('resize', updateTimelineProgress);
-        updateTimelineProgress(); // Initial call
+
+        // Only activate scroll listener when timeline is near the viewport
+        const timelineObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                timelineVisible = entry.isIntersecting;
+                if (timelineVisible) updateTimelineProgress();
+            });
+        }, { rootMargin: '200px 0px 200px 0px' });
+
+        timelineObserver.observe(timeline);
+
+        window.addEventListener('scroll', () => {
+            if (!timelineTicking && timelineVisible) {
+                requestAnimationFrame(() => {
+                    updateTimelineProgress();
+                    timelineTicking = false;
+                });
+                timelineTicking = true;
+            }
+        }, { passive: true });
+
+        // Update on resize (debounced)
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(updateTimelineProgress, 100);
+        }, { passive: true });
     }
 
     /* ==========================================================================

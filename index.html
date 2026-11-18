@@ -5,10 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GROZERA | Designing Digital Growth</title>
     <meta name="description" content="GROZERA is a strategic IT and digital transformation partner — empowering the golden era of growth for businesses in the digital landscape.">
+    <meta name="theme-color" content="#050505">
+
+    <!-- Preconnect for fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <!-- Non-blocking async font load -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@300;400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@300;400;500&display=swap"></noscript>
+
+    <!-- Preload critical logo image (above-fold LCP) -->
+    <link rel="preload" as="image" href="Logo%20img/grozera-logo.webp" type="image/webp">
+
+    <!-- Stylesheet -->
     <link rel="stylesheet" href="styles.css">
+
+    <!-- Favicon -->
     <link rel="icon" type="image/png" href="Logo%20img/grozera%20logo.png">
     <link rel="apple-touch-icon" href="Logo%20img/grozera%20logo.png">
 </head>
@@ -33,7 +46,10 @@
     <div class="intro-screen" id="introScreen">
         <div class="intro-image-wrapper">
             <div class="intro-sweeper"></div>
-            <img src="Logo%20img/grozera%20logo.png" alt="Grozera Logo" class="intro-img-logo">
+            <picture>
+                <source srcset="Logo%20img/grozera-logo.webp" type="image/webp">
+                <img src="Logo%20img/grozera%20logo.png" alt="Grozera Logo" class="intro-img-logo" width="213" height="110" fetchpriority="high" decoding="sync">
+            </picture>
         </div>
     </div>
 
@@ -41,7 +57,10 @@
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="#" class="logo">
-                <img src="Logo%20img/grozera%20logo.png" alt="Grozera Logo" class="brand-logo">
+                <picture>
+                    <source srcset="Logo%20img/grozera-logo.webp" type="image/webp">
+                    <img src="Logo%20img/grozera%20logo.png" alt="Grozera Logo" class="brand-logo" width="108" height="56" fetchpriority="high" decoding="sync">
+                </picture>
             </a>
             <ul class="nav-links">
                 <li><a href="#about">About</a></li>
@@ -77,16 +96,6 @@
             <!-- Premium Cinematic Orange Arc Animation System -->
             <div class="growth-grid-decor">
                 <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <!-- Soft cinematic bloom filter for the paths -->
-                        <filter id="hero-path-glow" x="-50%" y="-50%" width="200%" height="200%">
-                            <feGaussianBlur stdDeviation="0.4" />
-                        </filter>
-                    </defs>
-                    <!-- Glowing bloom under-layer (slightly wider stroke-width, low opacity) -->
-                    <path d="M-10 110 C 20 80, 40 50, 70 30 C 90 15, 110 5, 120 -10" fill="none" stroke="var(--accent)" stroke-width="0.6" opacity="0.04" filter="url(#hero-path-glow)" class="growth-path-1" />
-                    <path d="M-10 120 C 30 90, 50 60, 80 40 C 95 25, 105 10, 120 -5" fill="none" stroke="var(--accent)" stroke-width="0.3" opacity="0.02" filter="url(#hero-path-glow)" class="growth-path-2" />
-                    
                     <!-- Clean core vector paths -->
                     <path d="M-10 110 C 20 80, 40 50, 70 30 C 90 15, 110 5, 120 -10" fill="none" stroke="var(--accent)" stroke-width="0.25" opacity="0.08" class="growth-path-1" />
                     <path d="M-10 120 C 30 90, 50 60, 80 40 C 95 25, 105 10, 120 -5" fill="none" stroke="var(--accent)" stroke-width="0.12" opacity="0.04" class="growth-path-2" />
@@ -142,12 +151,6 @@
     <section class="about section" id="about">
         <div class="section-curve-decor">
             <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <filter id="about-glow">
-                        <feGaussianBlur stdDeviation="0.5" />
-                    </filter>
-                </defs>
-                <path d="M-10 20 C 30 45, 70 15, 110 35" fill="none" stroke="var(--accent)" stroke-width="0.6" opacity="0.04" filter="url(#about-glow)" />
                 <path d="M-10 20 C 30 45, 70 15, 110 35" fill="none" stroke="var(--accent)" stroke-width="0.12" opacity="0.15" />
             </svg>
         </div>
@@ -168,12 +171,6 @@
     <section class="services section" id="services">
         <div class="section-curve-decor">
             <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <filter id="services-glow">
-                        <feGaussianBlur stdDeviation="0.6" />
-                    </filter>
-                </defs>
-                <path d="M110 80 C 70 60, 30 90, -10 70" fill="none" stroke="var(--accent)" stroke-width="0.8" opacity="0.03" filter="url(#services-glow)" />
                 <path d="M110 80 C 70 60, 30 90, -10 70" fill="none" stroke="var(--accent)" stroke-width="0.15" opacity="0.12" />
             </svg>
         </div>
@@ -263,12 +260,6 @@
     <section class="selected-work section" id="work">
         <div class="section-curve-decor">
             <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <filter id="work-glow">
-                        <feGaussianBlur stdDeviation="0.6" />
-                    </filter>
-                </defs>
-                <path d="M-10 35 C 35 65, 65 20, 110 50" fill="none" stroke="var(--accent)" stroke-width="0.7" opacity="0.03" filter="url(#work-glow)" />
                 <path d="M-10 35 C 35 65, 65 20, 110 50" fill="none" stroke="var(--accent)" stroke-width="0.13" opacity="0.12" />
             </svg>
         </div>
@@ -681,7 +672,10 @@
     <footer class="footer">
         <div class="container footer-content">
             <div class="footer-logo">
-                <img src="Logo%20img/grozera%20logo.png" alt="Grozera Logo" class="brand-logo">
+                <picture>
+                    <source srcset="Logo%20img/grozera-logo.webp" type="image/webp">
+                    <img src="Logo%20img/grozera%20logo.png" alt="Grozera Logo" class="brand-logo" width="108" height="56" loading="lazy" decoding="async">
+                </picture>
             </div>
             <div class="footer-legal">
                 &copy; <span id="year"></span> GROZERA. All rights reserved.
@@ -689,6 +683,6 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </body>
 </html>

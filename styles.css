@@ -22,8 +22,8 @@
     --section-pad: 120px 0;
     
     /* Transitions */
-    --transition-smooth: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    --transition-fast: all 0.3s ease;
+    --transition-smooth: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-fast: 0.3s ease;
 }
 
 * {
@@ -33,7 +33,7 @@
 }
 
 html {
-    scroll-behavior: smooth;
+    scroll-behavior: auto;
 }
 
 body {
@@ -60,11 +60,12 @@ body {
 .glow-orb {
     position: absolute;
     border-radius: 50%;
-    filter: blur(120px);
+    filter: blur(80px);
     opacity: 0.12;
-    mix-blend-mode: screen;
     pointer-events: none;
     transition: opacity 1s ease;
+    will-change: transform;
+    transform: translateZ(0);
 }
 
 .glow-1 {
@@ -260,47 +261,38 @@ h1, h2, h3, h4, .logo {
 .reveal {
     opacity: 0;
     transform: translateY(30px);
-    filter: blur(8px);
     transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), 
-                transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), 
-                filter 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+                transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .reveal.active {
     opacity: 1;
     transform: translateY(0);
-    filter: blur(0);
 }
 
 .reveal-up {
     opacity: 0;
     transform: translateY(50px);
-    filter: blur(10px);
     transition: opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1), 
-                transform 1.4s cubic-bezier(0.16, 1, 0.3, 1), 
-                filter 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+                transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .reveal-up.active {
     opacity: 1;
     transform: translateY(0);
-    filter: blur(0);
 }
 
 /* Stagger parent containing elements to delay children dynamically */
 .reveal-stagger > * {
     opacity: 0;
     transform: translateY(30px);
-    filter: blur(6px);
     transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), 
-                transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), 
-                filter 1s cubic-bezier(0.16, 1, 0.3, 1);
+                transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .reveal-stagger.active > * {
     opacity: 1;
     transform: translateY(0);
-    filter: blur(0);
 }
 
 .reveal-stagger.active > *:nth-child(1) { transition-delay: 0.05s; }
@@ -448,7 +440,7 @@ h1, h2, h3, h4, .logo {
     align-items: center;
     opacity: 0;
     pointer-events: none;
-    transition: var(--transition-smooth);
+    transition: opacity var(--transition-smooth);
 }
 
 .mobile-menu.active {
@@ -465,7 +457,7 @@ h1, h2, h3, h4, .logo {
     margin: 30px 0;
     opacity: 0;
     transform: translateY(20px);
-    transition: var(--transition-smooth);
+    transition: opacity var(--transition-smooth), transform var(--transition-smooth);
 }
 
 .mobile-menu.active .mobile-nav-links li {
@@ -513,6 +505,8 @@ h1, h2, h3, h4, .logo {
                 radial-gradient(circle at 85% 85%, rgba(255, 90, 31, 0.02) 0%, transparent 60%);
     animation: visual-breathing 16s infinite ease-in-out alternate;
     pointer-events: none;
+    will-change: transform;
+    transform: translateZ(0);
 }
 
 @keyframes visual-breathing {
@@ -638,6 +632,7 @@ h1, h2, h3, h4, .logo {
     background: linear-gradient(to top, transparent, rgba(255, 90, 31, 0.35), transparent);
     opacity: 0;
     animation: shoot-up 8s infinite cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: transform, opacity;
 }
 
 @keyframes shoot-up {
@@ -670,23 +665,19 @@ h1, h2, h3, h4, .logo {
     display: block;
     opacity: 0;
     transform: translateY(40px) skewY(1.5deg);
-    filter: blur(12px);
     transition: opacity 1.6s cubic-bezier(0.16, 1, 0.3, 1),
-                transform 1.6s cubic-bezier(0.16, 1, 0.3, 1),
-                filter 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+                transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .hero-content.active .title-row:nth-child(1) {
     opacity: 1;
     transform: translateY(0) skewY(0deg);
-    filter: blur(0);
     transition-delay: 0.12s;
 }
 
 .hero-content.active .title-row:nth-child(2) {
     opacity: 1;
     transform: translateY(0) skewY(0deg);
-    filter: blur(0);
     transition-delay: 0.28s;
 }
 
@@ -814,6 +805,7 @@ h1, h2, h3, h4, .logo {
     white-space: nowrap;
     animation: marquee-scroll 30s linear infinite;
     gap: 50px;
+    will-change: transform;
 }
 
 .marquee-track span {
@@ -1051,7 +1043,7 @@ h1, h2, h3, h4, .logo {
     padding-left: 20px;
     position: relative;
     font-weight: 300;
-    transition: var(--transition-smooth);
+    transition: color var(--transition-smooth);
 }
 
 .service-col-list li::before {
@@ -1128,6 +1120,7 @@ h1, h2, h3, h4, .logo {
     text-decoration: none;
     color: inherit;
     overflow: hidden;
+    contain: layout style;
     transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
                 border-color 0.6s cubic-bezier(0.16, 1, 0.3, 1),
                 box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1),
@@ -1595,7 +1588,7 @@ h1, h2, h3, h4, .logo {
 .feature-item-new {
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     padding: 30px 0;
-    transition: var(--transition-smooth);
+    transition: background-color var(--transition-smooth), border-color var(--transition-smooth);
 }
 
 @media (min-width: 600px) {
@@ -1889,7 +1882,7 @@ h1, h2, h3, h4, .logo {
     display: flex;
     flex-direction: column;
     text-decoration: none;
-    transition: var(--transition-fast);
+    transition: color var(--transition-fast);
 }
 
 .contact-link:hover .contact-value {
@@ -1908,7 +1901,7 @@ h1, h2, h3, h4, .logo {
     font-size: 1.25rem;
     color: var(--text-primary);
     font-family: var(--font-sans);
-    transition: var(--transition-fast);
+    transition: color var(--transition-fast);
 }
 
 .social-links {
@@ -1922,15 +1915,13 @@ h1, h2, h3, h4, .logo {
     height: 46px;
     border-radius: 50%;
     border: 1px solid rgba(255, 255, 255, 0.06);
-    background-color: rgba(255, 255, 255, 0.015);
+    background-color: rgba(255, 255, 255, 0.04);
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--text-secondary);
     text-decoration: none;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    transition: var(--transition-smooth);
+    transition: transform var(--transition-smooth), background-color var(--transition-smooth), border-color var(--transition-smooth), box-shadow var(--transition-smooth), color var(--transition-smooth);
 }
 
 .social-btn svg {
@@ -1988,7 +1979,7 @@ h1, h2, h3, h4, .logo {
     font-family: var(--font-sans);
     font-size: 0.98rem;
     pointer-events: none;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: top 0.4s cubic-bezier(0.16, 1, 0.3, 1), font-size 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.4s cubic-bezier(0.16, 1, 0.3, 1), letter-spacing 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Floating label on focus or filled input */
@@ -2402,5 +2393,63 @@ body.intro-active .hero-content, body.intro-active .navbar, body.intro-active .h
         flex-direction: column;
         gap: 20px;
         text-align: center;
+    }
+}
+
+/* ==========================================================================
+   Performance: Disable heavy background animations on mobile
+   These elements are decorative and invisible on small screens.
+   ========================================================================== */
+@media (max-width: 768px) {
+    .ambient-glow-container {
+        display: none;
+    }
+
+    .cinematic-bg-lines {
+        display: none;
+    }
+
+    .g-line {
+        display: none;
+    }
+
+    .growth-grid-decor {
+        display: none;
+    }
+}
+
+/* ==========================================================================
+   Accessibility: Respect reduced-motion preference
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .marquee-track {
+        animation: none;
+    }
+
+    .title-row,
+    .reveal,
+    .reveal-up,
+    .reveal-stagger > * {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+
+    .hero-content .title-row {
+        opacity: 1;
+        transform: none;
+    }
+
+    html {
+        scroll-behavior: auto;
     }
 }
